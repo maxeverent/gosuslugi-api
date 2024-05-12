@@ -14,6 +14,8 @@ class AuthController {
 
       const currentUser = await db('user').where('device_id', '=', deviceId);
 
+      console.log(currentUser)
+
       if (currentUser) {
         await db('user').where('device_id', '=', deviceId).update('access_token', token);
       } else {
@@ -25,6 +27,7 @@ class AuthController {
       }
       return res.status(200).json({token: token});
     } catch(e) {
+      console.log(e)
       return res.status(400).json('error');
     }
   }
@@ -44,6 +47,17 @@ class AuthController {
       await db('user').where('device_id', '=', deviceId).update('pin_code', pincode);
 
       return res.status(200).json({pincode: pincode});
+    } catch(e) {
+      return res.status(400).json('error');
+    }
+  }
+
+  async refresh(req, res) {
+    try {
+      const deviceId = req.headers['x-device-id']
+      const token = generateTokens(deviceId)
+      await db('user').where('device_id', '=', deviceId).update('access_token', token);
+      return res.status(200).json({token: token});
     } catch(e) {
       return res.status(400).json('error');
     }
