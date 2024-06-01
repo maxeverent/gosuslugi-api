@@ -10,7 +10,6 @@ class AuthController {
   async login(req, res) {
     try {
       const deviceId = req.headers['x-device-id']
-
       const token = generateTokens(deviceId)
 
       const currentUser = await db('user').where('device_id', '=', deviceId);

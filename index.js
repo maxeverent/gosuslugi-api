@@ -11,6 +11,8 @@ const user = require('./authorization/authRouter');
 const location = require('./location/locationRouter');
 const activeDays = require('./activeDays/activeDaysRouter');
 const mfcRequests = require('./mfcRequest/mfcRouter');
+const diary = require('./diary/diaryRouter');
+const ugraRequest = require('./ugraRequest/ugraRequestRouter');
 
 app.use(bp.json());
 
@@ -20,6 +22,8 @@ app.use('/user-info', userInfo);
 app.use('/location', location);
 app.use('/active-days', activeDays);
 app.use('/mfc', mfcRequests);
+app.use('/diary', diary);
+app.use('/ugra-request', ugraRequest);
 app.use('/user', user);
 
 app.listen(PORT, () => {

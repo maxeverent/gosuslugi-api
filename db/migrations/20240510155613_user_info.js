@@ -16,6 +16,8 @@ exports.up = function(knex) {
     table.string('mobilePhone', 255).notNullable();
     table.string('snils', 255).notNullable();
     table.string('trusted', 255).notNullable();
+    table.integer('city_id').unsigned();
+    table.foreign('city_id').references('id').inTable('city');
   });
 };
 
