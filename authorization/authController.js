@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const db = require('../db/dbConfig');
 
 function generateTokens(payload) {
-  const accessToken = jwt.sign({payload: payload}, payload, {expiresIn: '24h'})
+  const accessToken = jwt.sign({payload: payload}, payload, {expiresIn: '5m'})
   return accessToken
 }
 
@@ -73,6 +73,29 @@ class AuthController {
 
     } catch(e) {
       return res.status(400).json('error');
+    }
+  }
+
+  async checkAuth(req, res) {
+    const deviceId = req.headers['x-device-id']
+    if (!deviceId) {
+      return res.status(400).json({message: 'X-DEVICE-ID null'});
+    }
+
+    const checkAuth = req.headers.authorization
+
+    if (!checkAuth) {
+      return res.status(401).json({message: "Не авторизован"});
+    }
+
+    const token = checkAuth.split(' ')[1]
+
+    const decodedData = jwt.verify(token, deviceId)
+
+    if (!decodedData) {
+      return res.status(401).json({message: "Не авторизован"})
+    } else {
+      return res.status(200).json({message: "Успех"})
     }
   }
 

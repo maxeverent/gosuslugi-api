@@ -11,5 +11,6 @@ router.post('/logout', controller.logout)
 router.post('/pincode', authMiddleware, controller.createPinCode)
 router.post('/refresh', controller.refresh)
 router.post('/check-pincode', authMiddleware, controller.checkPinCode)
+router.post('/check-auth', authMiddleware, controller.checkAuth)
 
 module.exports = router;

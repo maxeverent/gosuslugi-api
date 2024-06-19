@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
 
     const deviceId = req.headers['x-device-id']
     if (!checkAuth || !deviceId) {
-      return res.status(403).json({message: "Не авторизован"})
+      return res.status(401).json({message: "Не авторизован"})
     }
 
     const token = checkAuth.split(' ')[1]
@@ -20,10 +20,10 @@ module.exports = function (req, res, next) {
       req.user = decodedData
       next()
     } else {
-      return res.status(403).json({message: "Не авторизован"})
+      return res.status(401).json({message: "Не авторизован"})
     }
   } catch(e) {
     console.log(e)
-    return res.status(403).json({message: "Не авторизован"})
+    return res.status(401).json({message: "Не авторизован"})
   }
 }
