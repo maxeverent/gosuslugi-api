@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const db = require('../db/dbConfig');
 
 function generateTokens(payload) {
-  const accessToken = jwt.sign({payload: payload}, payload, {expiresIn: '5m'})
+  const accessToken = jwt.sign({payload: payload}, payload, {expiresIn: '30m'})
   return accessToken
 }
 
