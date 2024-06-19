@@ -4,7 +4,12 @@ class ActiveDaysController {
   async getMfcRequest(req, res) {
     try {
       
-			const mfc = await db('mfc').where('number', '1111');
+      const { id } = req.params
+
+			const mfc = await db('mfc').where('number', id);
+
+      if (mfc.length === 0) return res.status(400).json({message: 'не найдено'});
+
 			const mfcSteps = await db('mfc_steps').select('*').where('mfc_id', mfc[0].id);
 			mfc[0].mfc_steps = mfcSteps
 			const result = mfc

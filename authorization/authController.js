@@ -16,7 +16,7 @@ class AuthController {
 
       console.log(currentUser)
 
-      if (currentUser) {
+      if (currentUser.length !== 0) {
         await db('user').where('device_id', '=', deviceId).update('access_token', token);
       } else {
         await db("user").insert({
@@ -47,6 +47,30 @@ class AuthController {
       await db('user').where('device_id', '=', deviceId).update('pin_code', pincode);
 
       return res.status(200).json({pincode: pincode});
+    } catch(e) {
+      return res.status(400).json('error');
+    }
+  }
+
+  async checkPinCode(req, res) {
+    try {
+      const deviceId = req.headers['x-device-id']
+      const pincode = req.body.pincode
+      
+      if (!pincode) {
+        return res.status(400).json({message: 'pincode null'});
+      }
+
+      const user = await db('user').where('device_id', '=', deviceId)
+
+      if (!user) return res.status(400).json('пользователь не найден')
+
+      if (user[0].pin_code == pincode) {
+        return res.status(200).json({message: 'успех'})
+      } else {
+        return res.status(400).json({message: "неверный pincode"})
+      }
+
     } catch(e) {
       return res.status(400).json('error');
     }

@@ -6,6 +6,6 @@ const router = new Router()
 
 const controller = require('./mfcController');
 
-router.get('/get', authMiddleware, controller.getMfcRequest)
+router.get('/get/:id', authMiddleware, controller.getMfcRequest)
 
 module.exports = router;
